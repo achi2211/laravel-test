@@ -5,24 +5,23 @@ use App\Http\Controllers\Controller;
 class MainController extends Controller {
 
 
-    /**
-     * Show the profile for the given user.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+    //Function that generate an array data with the solution
     public function showResult()
     {
 
+        //call to private function
         $data = $this->solution();
 
+        //pass array result as parameter to result.php view
         return view('result')->with('data',$data);
     }
 
 
+    //function that resolve the cube summation problem - retrieved from https://www.hackerrank.com/challenges/cube-summation
     private function solution()
     {
 
+        //load input from input file
         $input_file = fopen("./input.txt", "r");
 
         $ulist = array();
@@ -32,13 +31,16 @@ class MainController extends Controller {
 
         if ($input_file) 
         {
+            //first input read
             $T = (int)fgets($input_file);
             $input[] = $T;
 
             for ($i = 0; $i < $T; $i++) 
             {
+                //second read
                 $line = fgets($input_file);
                 $input[] = $line;
+                //get coordinates
                 $split_line = explode(" ", $line);
 
                 $N = (int)$split_line[0];
@@ -55,6 +57,7 @@ class MainController extends Controller {
                     $y1 = (int)$split_line_oper[2]; 
                     $z1 = (int)$split_line_oper[3]; 
 
+                    //get instructions
                     if ($type === "UPDATE")
                     {
                         $index = $this->contained($ulist, $x1, $y1, $z1);
@@ -101,11 +104,12 @@ class MainController extends Controller {
         $result["input"] = $input;
         $result["output"] = $output;
 
+        //return final result
         return $result;
 
     }
 
-
+    //function that return the array index if result contains coordinates
     private function contained(&$ulist, $x1, $y1, $z1) 
     {
         $size = COUNT($ulist);

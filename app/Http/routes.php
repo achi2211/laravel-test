@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//resolve /result url
 Route::get('result', 'MainController@showResult');
